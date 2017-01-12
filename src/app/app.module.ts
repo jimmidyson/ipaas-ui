@@ -13,6 +13,8 @@ import { IPaaSCommonModule } from './common/common.module';
 import { AppComponent } from './app.component';
 import { ConfigService, configServiceInitializer } from './config.service';
 
+import { RestangularBingModule } from './restangular-bing/restangular-bing.module';
+
 export function restangularProviderConfigurer(restangularProvider: any, config: ConfigService) {
   restangularProvider.setBaseUrl(config.getSettings().apiEndpoint);
 }
@@ -30,6 +32,7 @@ export function restangularProviderConfigurer(restangularProvider: any, config: 
     AppRoutingModule,
     StoreModule,
     IPaaSCommonModule,
+    RestangularBingModule,
   ],
   providers: [
     ConfigService,
