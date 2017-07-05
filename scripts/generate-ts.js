@@ -7,8 +7,10 @@ const url = require("url");
 const config = require("../src/config.json");
 const CodeGen = require("swagger-js-codegen").CodeGen;
 const pluralize = require("pluralize");
+const prettier = require("prettier");
 const templates = path.join(__dirname, "templates");
 const swaggerUrl =
+  process.env.SWAGGER_URL ||
   "https://syndesis-staging.b6ff.rh-idev.openshiftapps.com/api/v1/swagger.json";
 const outputFile = "src/app/model.ts";
 console.log("Fetching: ", swaggerUrl);
@@ -43,7 +45,10 @@ https.get(swaggerUrl, response => {
           }
         }
       });
-      fs.writeFileSync(outputFile, tsSourceCode);
+      fs.writeFileSync(
+        outputFile,
+        prettier.format(tsSourceCode, { parser: "typescript" })
+      );
       console.log("Wrote file: ", outputFile);
     } catch (err) {
       console.log("Failed to generate typescript: ", err);
